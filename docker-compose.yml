@@ -2,6 +2,7 @@ version: '2'
 services:
   jenkins:
     image: dipayanr/droy-jenkins-image:latest
+    container_name : jenkins-master
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -10,28 +11,28 @@ services:
     volumes:
       - /var/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-  postgres:
-    image: postgres:9.6
-    networks:
-      - jenkins
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonarpasswd
-    volumes:
-      - /var/postgres-data:/var/lib/postgresql/data
-  sonarqube:
-    image: sonarqube:lts
-    ports:
-      - "9000:9000"
-      - "9092:9092"
-    networks:
-      - jenkins
-    environment:
-      SONARQUBE_JDBC_USERNAME: sonar
-      SONARQUBE_JDBC_PASSWORD: sonarpasswd
-      SONARQUBE_JDBC_URL: "jdbc:postgresql://postgres:5432/sonar"
-    depends_on: 
-      - postgres
-
+#disabled#  postgres:
+#disabled#    image: postgres:9.6
+#disabled#    networks:
+#disabled#      - jenkins
+#disabled#    environment:
+#disabled#      POSTGRES_USER: sonar
+#disabled#      POSTGRES_PASSWORD: sonarpasswd
+#disabled#    volumes:
+#disabled#      - /var/postgres-data:/var/lib/postgresql/data
+#disabled#  sonarqube:
+#disabled#    image: sonarqube:lts
+#disabled#    ports:
+#disabled#      - "9000:9000"
+#disabled#      - "9092:9092"
+#disabled#    networks:
+#disabled#      - jenkins
+#disabled#    environment:
+#disabled#      SONARQUBE_JDBC_USERNAME: sonar
+#disabled#      SONARQUBE_JDBC_PASSWORD: sonarpasswd
+#disabled#      SONARQUBE_JDBC_URL: "jdbc:postgresql://postgres:5432/sonar"
+#disabled#    depends_on: 
+#disabled#      - postgres
+#disabled#
 networks:
   jenkins:
